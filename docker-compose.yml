@@ -11,6 +11,7 @@ services:
     environment:
     - RAILS_ENV=production
     - RAILS_MASTER_KEY=ec60da9d1193ee55070657d822416d2d
+    - RAILS_SERVE_STATIC_FILES=true
     - SAMPLE_RAILS_APP_DATABASE_PASSWORD=password
     depends_on:
     - postgres
