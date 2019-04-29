@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  rails:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: thinknetica/is-sample-app
+    ports:
+    - "80:3000"
+    env_file:
+    - ./app.env
+    - ./db.env
+    environment:
+    - RAILS_SERVE_STATIC_FILES=true
+    depends_on:
+    - postgres
+    networks:
+    - rails-net
+    container_name: is-sample-app    
+
+  postgres:
+    env_file:
+    - ./db.env
+    image: postgres
+    volumes:
+    - postgres:/var/lib/postgresql/data
+    networks:
+    - rails-net
+    container_name: is-sample-db
+
+networks:
+  rails-net:
+
+volumes:
+  postgres:

@@ -1,0 +1,46 @@
+version: "3.7"
+
+services:
+  rails:
+    image: igorsharov/rails_sample_app
+    env_file:
+    - ./app.env
+    - ./db.env
+    depends_on:
+    - postgres
+    volumes:
+    - home-deploy:/app
+    networks:
+    - rails-net
+    container_name: is-sample-app
+
+  postgres:
+    env_file:
+    - ./db.env
+    image: postgres
+    volumes:
+    - postgres:/var/lib/postgresql/data
+    networks:
+    - rails-net
+    container_name: is-sample-db
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    image: thinknetica/is-sample-proxy
+    volumes:
+    - postgres:/var/lib/postgresql/data
+    - home-deploy:/home/deploy
+    networks:
+    - rails-net
+    ports:
+    - "80:80"
+    container_name: is-sample-proxy
+
+networks:
+  rails-net:
+
+volumes:
+  postgres:
+  home-deploy:
