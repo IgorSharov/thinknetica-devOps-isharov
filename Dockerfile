@@ -11,4 +11,4 @@ RUN ln -snf /usr/share/zoneinfo/Europe/Moscow /etc/localtime && echo "Europe/Mos
 CMD rm -f /app/tmp/pids/server.pid && \
     ./wait-for-it.sh is-sample-db:5432 --strict -- echo "DB is available" && \
     rails db:migrate && \
-    rails server -b 0.0.0.0
+    rails server
